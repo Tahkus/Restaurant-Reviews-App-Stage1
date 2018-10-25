@@ -203,7 +203,7 @@ nav h1 a {
 }
 .inside #map-container {
   background: #f3f3f3 none repeat scroll 0 0;
-  height: 40%;
+  height: 30%;
   position: fixed;
   top: 130px;
   width: 100%;
@@ -214,6 +214,7 @@ nav h1 a {
   height: 100%;
   width: 100%;
   max-width: 500px;
+  max-height: 500px;
   margin: auto;
 }
 .inside #footer {
@@ -259,7 +260,7 @@ nav h1 a {
   text-align: center;
 }
 #restaurant-container {
-  margin-top: 85%;
+  margin-top: 240px;
 }
 #reviews-container {
   padding: 30px 40px 80px;
@@ -296,4 +297,13 @@ nav h1 a {
 }
 #restaurant-hours {
   margin: auto;
+}
+
+/* =================== Break Points =============== */
+
+@media screen and (min-width: 760px) {
+
+  #restaurant-container {
+    margin-top: 420px;
+  }
 }
