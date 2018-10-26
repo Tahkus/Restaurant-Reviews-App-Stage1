@@ -1,3 +1,15 @@
+/* Register Service Worker */
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+  .catch(function(error) {
+    console.log(error)
+  });
+};
+
+/** 
+* Variables
+*/
 let restaurants,
   neighborhoods,
   cuisines
@@ -208,12 +220,3 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 } */
-
-/* Register Service Worker */
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js')
-  .catch(function(error) {
-    console.log('A error occured.')
-  })
-}

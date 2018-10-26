@@ -1,6 +1,7 @@
-console.log('Service Worker is registered');
+console.log('Service Worker is registered.')
 
-var restaurantCache = [
+let cacheName = 'v1';
+let restaurantCache = [
 				'/',
 				'/index.html',
 				'/restaurant.html',
@@ -18,21 +19,40 @@ var restaurantCache = [
 				'/img/10.jpg',
 				'/js/dbhelper.js',
 				'/js/main.js',
-				'/js/restaurant_info.js',
+				'/js/restaurant_info.js'
 			];
 
 self.addEventListener('install', function(event) {
-  // Perform install steps
 	event.waitUntil(
-	    caches.open('cache-v1').then(function(cache) {
+	    caches.open(cacheName).then(function(cache) {
+	    	console.log('Opened cache');
 	        return cache.addAll(restaurantCache);
       	})
 	);
 });
 
-/* self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function(event) {
 	event.respondWith(
-		new Response('Hello World')
+		caches.match(event.request)
+		.then(function(response) {
+			if (response) {
+				console.log('Found a response in the cache.');
+				return response;
+			} else {
+				console.log('No response in cache, fetching one');
+				return fetch(event.request)
+				.then(function(response) {
+					const responseToCache = response.clone();
+					caches.open(cacheName)
+					.then(function(cache) {
+						cache.put(event.request, responseToCache);
+					});
+					return response;
+				})
+				.catch(function(error) {
+					console.log(error);
+				});
+			}
+		})
 	);
 });
-*/
