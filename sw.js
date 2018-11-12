@@ -1,4 +1,4 @@
-console.log('Service Worker is registered');
+// console.log('Service Worker is registered');
 
 let cacheName = 'v1';
 let restaurantCache = [
@@ -25,7 +25,7 @@ let restaurantCache = [
 self.addEventListener('install', function(event) {
 	event.waitUntil(
 	    caches.open(cacheName).then(function(cache) {
-	    	console.log('Opened cache');
+//	    	console.log('Opened cache');
 	        return cache.addAll(restaurantCache);
       	})
 	);
@@ -36,10 +36,10 @@ self.addEventListener('fetch', function(event) {
 		caches.match(event.request)
 		.then(function(response) {
 			if (response) {
-				console.log('Found a response in the cache.');
+//				console.log('Found a response in the cache.');
 				return response;
 			} else {
-				console.log('No response in cache, fetching one');
+//				console.log('No response in cache, fetching one');
 				return fetch(event.request)
 				.then(function(response) {
 					const responseToCache = response.clone();
