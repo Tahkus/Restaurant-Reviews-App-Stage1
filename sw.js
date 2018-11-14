@@ -1,6 +1,6 @@
 // console.log('Service Worker is registered');
 
-let cacheName = 'v1';
+let staticCache = 'v4';
 let restaurantCache = [
 				'/',
 				'/index.html',
@@ -24,10 +24,25 @@ let restaurantCache = [
 
 self.addEventListener('install', function(event) {
 	event.waitUntil(
-	    caches.open(cacheName).then(function(cache) {
+	    caches.open(staticCache).then(function(cache) {
 //	    	console.log('Opened cache');
 	        return cache.addAll(restaurantCache);
       	})
+	);
+});
+
+self.addEventListener('activate', function(event) {
+	console.log('Service Worker Activated');
+	event.waitUntil(
+		caches.keys().then(function(cacheNames) {
+			return Promise.all(
+			    cacheNames.filter(function(cacheName) {
+			    	return cacheName != staticCache;
+			    }).map(function(cacheName) {
+			    	return caches.delete(cacheName);
+			    })
+			);
+		})
 	);
 });
 
@@ -43,7 +58,7 @@ self.addEventListener('fetch', function(event) {
 				return fetch(event.request)
 				.then(function(response) {
 					const responseToCache = response.clone();
-					caches.open(cacheName)
+					caches.open(staticCache)
 					.then(function(cache) {
 						cache.put(event.request, responseToCache);
 					});
@@ -56,3 +71,4 @@ self.addEventListener('fetch', function(event) {
 		})
 	);
 });
+
